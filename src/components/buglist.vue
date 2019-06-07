@@ -10,19 +10,20 @@
       </form>
     </div>
     <ul class="list-group">
-      <li class="list-group-item">Cras justo odio</li>
+      <li class="list-group-item" v-for="bug in bugs" :key="bug._id">Author: {{bug.creator}} - Title: {{bug.title}} -
+        Description:
+        {{bug.description}}</li>
     </ul>
   </div>
 </template>
 
-
-
-
-
-
+<!--------------------------------------------------------------------------------------------------->
 <script>
   export default {
     name: "buglist",
+    mounted() {
+      this.$store.dispatch('getBugs')
+    },
     data() {
       return {
         results: [],
@@ -38,8 +39,13 @@
     methods: {
       submitBug(bug) {
         console.log(bug)
-        debugger
         this.$store.dispatch('submitBug', bug)
+        this.$store.dispatch('getBugs')
+      }
+    },
+    computed: {
+      bugs() {
+        return this.$store.state.bugs
       }
     }
   }
@@ -49,12 +55,7 @@
 
 </script>
 
-
-
-
-
-
-
+<!--------------------------------------------------------------------------------------------------->
 
 
 <style>
