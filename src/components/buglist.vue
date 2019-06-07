@@ -9,10 +9,44 @@
         <button @click="submitBug(bug)" type="button" class="btn btn-success">Submit Bug</button>
       </form>
     </div>
+    <div class="row">
+      <div class="col-3">
+        Author
+      </div>
+      <div class="col-3">
+        Title
+      </div>
+      <div class="col-3">
+        Description
+      </div>
+      <div class="col-3">
+        Status
+      </div>
+    </div>
+
+
     <ul class="list-group">
-      <li class="list-group-item" v-for="bug in bugs" :key="bug._id">Author: {{bug.creator}} - Title: {{bug.title}} -
-        Description:
-        {{bug.description}}</li>
+      <li class="list-group-item" v-for="bug in bugs" :key="bug._id">
+        <router-link :to="{name: 'bugDetails', params: {id: bug._id}}">
+          <div class="row">
+            <div class="col-3">
+              {{bug.creator}}
+            </div>
+            <div class="col-3">
+              {{bug.title}}
+            </div>
+            <div class="col-3">
+              {{bug.description}}
+            </div>
+            <div class="col-3 bugClosed" v-if="bug.closed == true">
+              <i class="fas fa-circle">Bug Squashed</i>
+            </div>
+            <div class="col-3 bugOpen" v-else="bug.closed == false">
+              <i class="fas fa-circle">Pending Fix . . .</i>
+            </div>
+          </div>
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>
@@ -58,10 +92,24 @@
 <!--------------------------------------------------------------------------------------------------->
 
 
-<style>
-  /* .bugSubmitForm {
-    min-height: 10em;
-    display: table-cell;
-    vertical-align: middle;
-  } */
+<style scoped>
+  .bugSubmitForm {
+    margin-bottom: 5%;
+  }
+
+  .bugOpen {
+    color: green;
+  }
+
+  .bugClosed {
+    color: red;
+  }
+
+  .fa-circle:before {
+    margin-right: 20px;
+  }
+
+  i {
+    margin-left: 40px;
+  }
 </style>
