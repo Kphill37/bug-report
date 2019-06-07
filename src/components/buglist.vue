@@ -112,4 +112,8 @@
   i {
     margin-left: 40px;
   }
+
+  a {
+    text-decoration: none;
+  }
 </style>
