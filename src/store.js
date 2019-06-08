@@ -23,7 +23,6 @@ export default new Vuex.Store({
       state.bugs = payload
     },
     getBug(state, payload = []) {
-      debugger
       state.bug = payload
     }
   },
@@ -52,10 +51,7 @@ export default new Vuex.Store({
         console.error(error)
       }
     },
-    async getBugbyID({
-      commit
-    }, id) {
-      debugger
+    async getBugbyID({ commit }, id) {
       try {
         let res = await _api.get(id)
         commit("getBug", res.data.results)
@@ -63,9 +59,7 @@ export default new Vuex.Store({
         console.error(error)
       }
     },
-    async clearBug({
-      commit
-    }) {
+    async clearBug({ commit }) {
       commit("getBug", {})
     }
   }
