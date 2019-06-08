@@ -8,12 +8,17 @@
 </template>
 
 <style>
+  body {
+    background-color: rgb(68, 67, 67);
+  }
+
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
+    color: #000000;
+    background-color: rgb(68, 67, 67);
   }
 
   #nav {
