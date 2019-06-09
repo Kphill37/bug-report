@@ -37,11 +37,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    submitBug({
-      commit,
-      dispatch,
-      state
-    }, bug) {
+    submitBug({ commit, dispatch, state }, bug) {
       console.log(bug)
       try {
         _api.post("", bug)
@@ -50,9 +46,7 @@ export default new Vuex.Store({
         console.error(error)
       }
     },
-    async getBugs({
-      commit
-    }) {
+    async getBugs({ commit }) {
       try {
         let res = await _api.get('')
         console.log(res.data.results)
@@ -61,9 +55,7 @@ export default new Vuex.Store({
         console.error(error)
       }
     },
-    async getBugbyID({
-      commit
-    }, id) {
+    async getBugbyID({ commit }, id) {
       try {
         let res = await _api.get(id)
         commit("getBug", res.data.results)
@@ -71,9 +63,8 @@ export default new Vuex.Store({
         console.error(error)
       }
     },
-    async clearBug({ commit }) {
-      commit("getBug", {})
-    },
+    async clearBug({ commit }) { commit("getBug", {}) },
+
     async submitComment({ commit, dispatch }, comment) {
       try {
         debugger
@@ -92,6 +83,11 @@ export default new Vuex.Store({
       } catch (error) {
         console.error(error)
       }
+    },
+    async deleteCommentByID({ commit, dispatch }, bugComment, bug) {
+      let res = await _api.delete("/" + bugComment.bug + "/notes" + "/" + bugComment._id)
+    }, catch(error) {
+      console.error(error)
     }
   }
 })

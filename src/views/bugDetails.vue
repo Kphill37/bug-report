@@ -37,14 +37,14 @@
         <div class="commentSection">
           <h1 class="commentsHeader">Comments</h1>
           <hr class="commentDivider">
-          <ul v-for="comment in comments" class="list-group" :key="comment._id">
+          <ul v-for="comment in bugComments" class="list-group" :key="comment._id">
             <li class="list-group-item">
               User: {{comment.creator}}
               <br>
               Description: {{comment.content}}
               <br>
               <button
-                @click="deleteNote(comment._id)"
+                @click="deleteNote(comment, bug)"
                 type="button"
                 class="btn btn-danger btn-sm"
               >Delete Note</button>
@@ -100,6 +100,9 @@ export default {
       return this.$store.state.bug;
     },
     comments() {
+      return this.$store.state.comments;
+    },
+    bugComments() {
       return this.$store.state.bugComments;
     }
   },
@@ -110,10 +113,12 @@ export default {
       console.log(bug);
       this.$store.dispatch("submitComment", comment);
       this.$store.dispatch("getComments", this.$route.params.id);
+    },
+    deleteNote(bugComment, bug) {
+      debugger;
+      this.$store.dispatch("deleteCommentByID", bugComment, bug);
+      this.$store.dispatch("getComments", this.$route.params.id);
     }
-    // deleteNote(comment._id) {
-
-    // }
   },
   components: {}
 };
