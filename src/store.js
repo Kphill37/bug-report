@@ -14,6 +14,8 @@ export default new Vuex.Store({
   state: {
     bug: [],
     bugs: [],
+    comments: [],
+    bugComments: [],
   },
   mutations: {
     postBug(state, bugs = {}) {
@@ -24,6 +26,14 @@ export default new Vuex.Store({
     },
     getBug(state, payload = []) {
       state.bug = payload
+    },
+    postComments(state, payload = []) {
+      debugger
+      console.log(payload)
+      state.comments = payload
+    },
+    setComments(state, payload = []) {
+      state.bugComments = payload
     }
   },
   actions: {
@@ -51,7 +61,9 @@ export default new Vuex.Store({
         console.error(error)
       }
     },
-    async getBugbyID({ commit }, id) {
+    async getBugbyID({
+      commit
+    }, id) {
       try {
         let res = await _api.get(id)
         commit("getBug", res.data.results)
@@ -61,6 +73,25 @@ export default new Vuex.Store({
     },
     async clearBug({ commit }) {
       commit("getBug", {})
+    },
+    async submitComment({ commit, dispatch }, comment) {
+      try {
+        debugger
+        let res = await _api.post("/" + comment.bug + "/notes", comment)
+        commit("postComments", res.data.results)
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async getComments({ commit, dispatch }, payload) {
+      try {
+        debugger
+        let res = await _api.get("/" + payload + "/notes")
+        console.log(res.data.results)
+        commit("setComments", res.data.results)
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 })

@@ -45,7 +45,7 @@
         User<input type="text" name="name" v-model="bug.creator">
         Title of Bug<input type="text" name="name" v-model="bug.title">
         Description<input type="text" name="Description" v-model="bug.description">
-        <button @click="submitBug(bug)" type="button" class="btn btn-success">Submit Bug</button>
+        <button @click="submitBug(bug)" type="submit" class="btn btn-success">Submit Bug</button>
       </form>
     </div>
   </div>
