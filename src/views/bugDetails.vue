@@ -36,6 +36,7 @@
 
         <div class="commentSection">
           <h1 class="commentsHeader">Comments</h1>
+          <hr class="commentDivider">
           <ul v-for="comment in comments" class="list-group" :key="comment._id">
             <li class="list-group-item">
               User: {{comment.creator}}
@@ -149,5 +150,8 @@ export default {
 }
 .commentsHeader {
   text-align: start;
+}
+.commentDivider {
+  border-top: 1px solid black;
 }
 </style>
