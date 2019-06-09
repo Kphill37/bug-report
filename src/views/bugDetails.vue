@@ -42,6 +42,12 @@
               User: {{comment.creator}}
               <br>
               Description: {{comment.content}}
+              <br>
+              <button
+                @click="deleteNote(comment._id)"
+                type="button"
+                class="btn btn-danger btn-sm"
+              >Delete Note</button>
             </li>
           </ul>
         </div>
@@ -105,6 +111,9 @@ export default {
       this.$store.dispatch("submitComment", comment);
       this.$store.dispatch("getComments", this.$route.params.id);
     }
+    // deleteNote(comment._id) {
+
+    // }
   },
   components: {}
 };
