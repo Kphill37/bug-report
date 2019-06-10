@@ -72,7 +72,6 @@ export default new Vuex.Store({
     async getComments({ commit, dispatch }, payload) {
       try {
         let res = await _api.get("/" + payload + "/notes")
-        console.log(res.data.results)
         commit("setComments", res.data.results)
       } catch (error) {
         console.error(error)

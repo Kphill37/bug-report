@@ -25,6 +25,12 @@
                 {{new Date(bug.createdAt).toLocaleDateString('en-US', {weekday:'long', year: 'numeric', day: 'numeric', month:'long'})}}
               </p>
               <p class="lead">Description: {{bug.description}}</p>
+              <p class="text-muted" v-if="bug.closed == true">Bug Closed</p>
+              <button
+                class="btn btn-primary"
+                @click="bugStatus(bug)"
+                v-if="!bug.closed"
+              >Mark as Complete</button>
             </div>
           </div>
         </div>
@@ -32,7 +38,8 @@
 
       <div class="col-6">
         <div class="commentForm">
-          <form @submit.prevent="submitComment(comment, bug)" class="submitComment">
+          <h3 class="text-muted" v-if="bug.closed == true">Bug Closed; commenting disabled</h3>
+          <form @submit.prevent="submitComment(comment, bug)" v-else class="submitComment">
             <h3>Submit New Comment</h3>User
             <span>
               <input type="text" name="name" v-model="comment.creator">
@@ -48,14 +55,14 @@
         <div class="commentSection">
           <h1 class="commentsHeader">Comments</h1>
           <hr class="commentDivider">
-          <ul v-for="comment in bugComments" class="list-group" :key="comment._id">
+          <ul v-for="bugComment in bugComments" class="list-group" :key="bugComment._id">
             <li class="list-group-item">
-              User: {{comment.creator}}
+              User: {{bugComment.creator}}
               <br>
-              Description: {{comment.content}}
+              Description: {{bugComment.content}}
               <br>
               <button
-                @click="deleteNote(comment, bug)"
+                @click="deleteNote(bugComment, bug)"
                 type="button"
                 class="btn btn-danger btn-sm"
               >Delete Note</button>
@@ -125,6 +132,9 @@ export default {
     deleteNote(bugComment, bug) {
       this.$store.dispatch("deleteCommentByID", bugComment, bug);
       this.$store.dispatch("getComments", this.$route.params.id);
+    },
+    bugStatus(bug) {
+      this.$store.dispatch("bugCompleted", bug);
     }
   },
   components: {}
