@@ -28,19 +28,14 @@ export default new Vuex.Store({
       state.bug = payload
     },
     postComments(state, payload = []) {
-      debugger
-      console.log(payload)
       state.comments = payload
     },
     setComments(state, payload = []) {
-      debugger
-      console.log(payload)
       state.bugComments = payload
     }
   },
   actions: {
     submitBug({ commit, dispatch, state }, bug) {
-      console.log(bug)
       try {
         _api.post("", bug)
         dispatch("getBugs")
@@ -51,7 +46,6 @@ export default new Vuex.Store({
     async getBugs({ commit }) {
       try {
         let res = await _api.get('')
-        console.log(res.data.results)
         commit("getBugs", res.data.results)
       } catch (error) {
         console.error(error)
@@ -69,7 +63,6 @@ export default new Vuex.Store({
 
     async submitComment({ commit, dispatch }, comment) {
       try {
-        debugger
         let res = await _api.post("/" + comment.bug + "/notes", comment)
         dispatch('getComments', comment.bug)
       } catch (error) {
@@ -78,7 +71,6 @@ export default new Vuex.Store({
     },
     async getComments({ commit, dispatch }, payload) {
       try {
-        debugger
         let res = await _api.get("/" + payload + "/notes")
         console.log(res.data.results)
         commit("setComments", res.data.results)
@@ -87,10 +79,7 @@ export default new Vuex.Store({
       }
     },
     async bugCompleted({ commit, dispatch }, bug) {
-      debugger
-      console.log(bug._id)
       let res = await _api.delete(bug._id)
-      console.log(res)
       dispatch('getBugs')
     },
     async deleteCommentByID({ commit, dispatch }, bugComment, bug) {
