@@ -26,11 +26,7 @@
               </p>
               <p class="lead">Description: {{bug.description}}</p>
               <p class="text-muted" v-if="bug.closed == true">Bug Closed</p>
-              <button
-                class="btn btn-primary"
-                @click="bugStatus(bug)"
-                v-if="!bug.closed"
-              >Mark as Complete</button>
+              <button class="btn btn-primary" @click="bugStatus(bug)" v-if="!bug.closed">Mark as Complete</button>
             </div>
           </div>
         </div>
@@ -61,11 +57,8 @@
               <br>
               Description: {{bugComment.content}}
               <br>
-              <button
-                @click="deleteNote(bugComment, bug), disabled = true"
-                type="button"
-                class="btn btn-danger btn-sm"
-              >Delete Note</button>
+              <button @click="deleteNote(bugComment, bug), disabled = true" type="button"
+                class="btn btn-danger btn-sm">Delete Note</button>
             </li>
           </ul>
         </div>
@@ -89,60 +82,60 @@
 
 
 <script>
-export default {
-  name: "DetailsPage",
-  mounted() {
-    this.$store.dispatch("getComments", this.$route.params.id);
-    this.$store.dispatch("getBugbyID", this.$route.params.id);
-    setTimeout(() => {
-      if (!this.bug._id) {
-        this.$router.push({ name: "home" });
-      }
-    }, 3000);
-  },
-  props: [],
+  export default {
+    name: "DetailsPage",
+    mounted() {
+      this.$store.dispatch("getComments", this.$route.params.id);
+      this.$store.dispatch("getBugbyID", this.$route.params.id);
+      setTimeout(() => {
+        if (!this.bug._id) {
+          this.$router.push({ name: "home" });
+        }
+      }, 3000);
+    },
+    props: [],
 
-  data() {
-    return {
-      comment: {
-        content: "",
-        bug: this.$route.params.id,
-        creator: "",
-        user: "",
-        flagged: "pending"
+    data() {
+      return {
+        comment: {
+          content: "",
+          bug: this.$route.params.id,
+          creator: "",
+          user: "",
+          flagged: "pending"
+        }
+      };
+    },
+    computed: {
+      bug() {
+        return this.$store.state.bug;
+      },
+      comments() {
+        return this.$store.state.comments;
+      },
+      bugComments() {
+        return this.$store.state.bugComments;
+      },
+      // bugStatus() {
+      //   return this.$store.state.bug.closed;
+      // }
+    },
+    methods: {
+      submitComment(comment, bug) {
+        this.$store.dispatch("submitComment", comment);
+        this.$store.dispatch("getComments", this.$route.params.id);
+      },
+      deleteNote(bugComment, bug) {
+        this.$store.dispatch("deleteCommentByID", bugComment, bug);
+        this.$store.dispatch("getComments", this.$route.params.id);
+      },
+      bugStatus(bug) {
+        debugger;
+        this.$store.dispatch("bugCompleted", bug);
       }
-    };
-  },
-  computed: {
-    bug() {
-      return this.$store.state.bug;
     },
-    comments() {
-      return this.$store.state.comments;
-    },
-    bugComments() {
-      return this.$store.state.bugComments;
-    },
-    bugStatus() {
-      return this.$store.state.bug.closed;
-    }
-  },
-  methods: {
-    submitComment(comment, bug) {
-      this.$store.dispatch("submitComment", comment);
-      this.$store.dispatch("getComments", this.$route.params.id);
-    },
-    deleteNote(bugComment, bug) {
-      this.$store.dispatch("deleteCommentByID", bugComment, bug);
-      this.$store.dispatch("getComments", this.$route.params.id);
-    },
-    bugStatus(bug) {
-      debugger;
-      this.$store.dispatch("bugCompleted", bug);
-    }
-  },
-  components: {}
-};
+    components: {}
+  };
 </script>
 
 
@@ -159,41 +152,47 @@ export default {
 
 
 <style scoped>
-.jumbotron {
-  margin-top: 5vh;
-  margin-left: 2vw;
-  background-color: rgba(0, 0, 0, 0.493);
-  width: 45vw;
-  display: inline-block;
-}
-.commentSection {
-  margin-top: 2vh;
-}
-.list-group-item {
-  margin-top: 5vh;
-  background-color: rgba(0, 0, 0, 0.493);
-  width: 45vw;
-  text-align: start;
-}
+  .jumbotron {
+    margin-top: 5vh;
+    margin-left: 2vw;
+    background-color: rgba(0, 0, 0, 0.493);
+    width: 45vw;
+    display: inline-block;
+  }
 
-.fa-plus-circle:before {
-  color: green;
-  font-size: 24px;
-}
+  .commentSection {
+    margin-top: 2vh;
+  }
 
-.commentForm {
-  margin-left: 4vw;
-}
-.commentsHeader {
-  text-align: start;
-}
-.commentDivider {
-  border-top: 1px solid black;
-}
-hr {
-  width: 45vw;
-}
-.h1 {
-  display: inline;
-}
+  .list-group-item {
+    margin-top: 5vh;
+    background-color: rgba(0, 0, 0, 0.493);
+    width: 45vw;
+    text-align: start;
+  }
+
+  .fa-plus-circle:before {
+    color: green;
+    font-size: 24px;
+  }
+
+  .commentForm {
+    margin-left: 4vw;
+  }
+
+  .commentsHeader {
+    text-align: start;
+  }
+
+  .commentDivider {
+    border-top: 1px solid black;
+  }
+
+  hr {
+    width: 45vw;
+  }
+
+  .h1 {
+    display: inline;
+  }
 </style>
