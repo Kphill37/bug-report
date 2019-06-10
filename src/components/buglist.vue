@@ -37,6 +37,7 @@
             </div>
           </div>
         </router-link>
+
       </li>
     </ul>
     <div class="bugSubmitForm">

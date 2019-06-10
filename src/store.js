@@ -33,6 +33,8 @@ export default new Vuex.Store({
       state.comments = payload
     },
     setComments(state, payload = []) {
+      debugger
+      console.log(payload)
       state.bugComments = payload
     }
   },
@@ -69,7 +71,7 @@ export default new Vuex.Store({
       try {
         debugger
         let res = await _api.post("/" + comment.bug + "/notes", comment)
-        commit("postComments", res.data.results)
+        dispatch('getComments', comment.bug)
       } catch (error) {
         console.error(error)
       }
@@ -84,10 +86,18 @@ export default new Vuex.Store({
         console.error(error)
       }
     },
+    async bugCompleted({ commit, dispatch }, bug) {
+      debugger
+      console.log(bug._id)
+      let res = await _api.delete(bug._id)
+      console.log(res)
+      dispatch('getBugs')
+    },
     async deleteCommentByID({ commit, dispatch }, bugComment, bug) {
       let res = await _api.delete("/" + bugComment.bug + "/notes" + "/" + bugComment._id)
+      dispatch('getComments', bugComment.bug)
     }, catch(error) {
       console.error(error)
     }
-  }
+  },
 })

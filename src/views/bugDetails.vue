@@ -18,6 +18,9 @@
                 {{new Date(bug.createdAt).toLocaleDateString('en-US', {weekday:'long', year: 'numeric', day: 'numeric', month:'long'})}}
               </p>
               <p class="lead">Description: {{bug.description}}</p>
+              <p v-if="bug.closed == true"><strong>Bug closed, no further actions needed</strong>
+              </p>
+              <button @click="bugStatus(bug)" v-if="!bug.closed">Mark As Completed</button>
             </div>
           </div>
         </div>
@@ -25,7 +28,8 @@
 
       <div class="col-6">
         <div class="commentForm">
-          <form @submit.prevent="submitComment(comment, bug)" class="submitComment">
+          <form @submit.prevent="submitComment(comment, bug)" v-if="!bug.closed" class="submitComment">
+            <h3 v-if="bug.closed == true">Bug Closed</h3>
             <h3>Submit New Comment</h3>User
             <input type="text" name="name" v-model="comment.creator">
             Comment
@@ -37,17 +41,15 @@
         <div class="commentSection">
           <h1 class="commentsHeader">Comments</h1>
           <hr class="commentDivider">
-          <ul v-for="comment in bugComments" class="list-group" :key="comment._id">
+          <ul v-for="bugComment in bugComments" class="list-group" :key="comment._id">
             <li class="list-group-item">
-              User: {{comment.creator}}
+              User: {{bugComment.creator}}
               <br>
-              Description: {{comment.content}}
+              Description: {{bugComment.content}}
               <br>
-              <button
-                @click="deleteNote(comment, bug)"
-                type="button"
-                class="btn btn-danger btn-sm"
-              >Delete Note</button>
+              <button @click="deleteNote(bugComment, bug)" type="submit" class="btn btn-danger btn-sm">
+                Delete Note
+              </button>
             </li>
           </ul>
         </div>
@@ -71,57 +73,61 @@
 
 
 <script>
-export default {
-  name: "DetailsPage",
-  mounted() {
-    this.$store.dispatch("getComments", this.$route.params.id);
-    this.$store.dispatch("getBugbyID", this.$route.params.id);
-    setTimeout(() => {
-      if (!this.bug._id) {
-        this.$router.push({ name: "home" });
-      }
-    }, 3000);
-  },
-  props: [],
+  export default {
+    name: "DetailsPage",
+    mounted() {
+      this.$store.dispatch("getComments", this.$route.params.id);
+      this.$store.dispatch("getBugbyID", this.$route.params.id);
+      setTimeout(() => {
+        if (!this.bug._id) {
+          this.$router.push({ name: "home" });
+        }
+      }, 3000);
+    },
+    props: [],
 
-  data() {
-    return {
-      comment: {
-        content: "",
-        bug: this.$route.params.id,
-        creator: "",
-        user: "",
-        flagged: "pending"
+    data() {
+      return {
+        comment: {
+          content: "",
+          bug: this.$route.params.id,
+          creator: "",
+          user: "",
+          flagged: "pending"
+        }
+      };
+    },
+    computed: {
+      bug() {
+        return this.$store.state.bug;
+      },
+      comments() {
+        return this.$store.state.comments;
+      },
+      bugComments() {
+        return this.$store.state.bugComments;
       }
-    };
-  },
-  computed: {
-    bug() {
-      return this.$store.state.bug;
     },
-    comments() {
-      return this.$store.state.comments;
+    methods: {
+      submitComment(comment, bug) {
+        debugger;
+        console.log(comment);
+        console.log(bug);
+        this.$store.dispatch("submitComment", comment);
+        this.$store.dispatch("getComments", this.$route.params.id);
+      },
+      deleteNote(bugComment, bug) {
+        debugger;
+        this.$store.dispatch("deleteCommentByID", bugComment, bug);
+        this.$store.dispatch("getComments", this.$route.params.id);
+      },
+      bugStatus(bug) {
+        debugger
+        this.$store.dispatch("bugCompleted", bug)
+      },
     },
-    bugComments() {
-      return this.$store.state.bugComments;
-    }
-  },
-  methods: {
-    submitComment(comment, bug) {
-      debugger;
-      console.log(comment);
-      console.log(bug);
-      this.$store.dispatch("submitComment", comment);
-      this.$store.dispatch("getComments", this.$route.params.id);
-    },
-    deleteNote(bugComment, bug) {
-      debugger;
-      this.$store.dispatch("deleteCommentByID", bugComment, bug);
-      this.$store.dispatch("getComments", this.$route.params.id);
-    }
-  },
-  components: {}
-};
+    components: {}
+  };
 </script>
 
 
@@ -138,34 +144,38 @@ export default {
 
 
 <style scoped>
-.jumbotron {
-  margin-top: 5vh;
-  margin-left: 2vw;
-  background-color: rgba(0, 0, 0, 0.493);
-  width: 45vw;
-}
-.commentSection {
-  margin-top: 2vh;
-}
-.list-group-item {
-  margin-top: 5vh;
-  background-color: rgba(0, 0, 0, 0.493);
-  width: 45vw;
-  text-align: start;
-}
+  .jumbotron {
+    margin-top: 5vh;
+    margin-left: 2vw;
+    background-color: rgba(0, 0, 0, 0.493);
+    width: 45vw;
+  }
 
-.fa-plus-circle:before {
-  color: green;
-  font-size: 24px;
-}
+  .commentSection {
+    margin-top: 2vh;
+  }
 
-.commentForm {
-  margin-left: 4vw;
-}
-.commentsHeader {
-  text-align: start;
-}
-.commentDivider {
-  border-top: 1px solid black;
-}
+  .list-group-item {
+    margin-top: 5vh;
+    background-color: rgba(0, 0, 0, 0.493);
+    width: 45vw;
+    text-align: start;
+  }
+
+  .fa-plus-circle:before {
+    color: green;
+    font-size: 24px;
+  }
+
+  .commentForm {
+    margin-left: 4vw;
+  }
+
+  .commentsHeader {
+    text-align: start;
+  }
+
+  .commentDivider {
+    border-top: 1px solid black;
+  }
 </style>
