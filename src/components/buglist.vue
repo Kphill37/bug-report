@@ -44,7 +44,7 @@
     </ul>
     <div class="bugSubmitForm">
 
-      <form @submit.prevent="handleSubmit" class="submitBug">
+      <form @submit.prevent="submitBug(bug)" class="submitBug">
         User<input type="text" name="name" v-model="bug.creator">
         Title of Bug<input type="text" name="name" v-model="bug.title">
         Description<input type="text" name="Description" v-model="bug.description">

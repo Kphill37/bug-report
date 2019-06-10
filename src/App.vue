@@ -9,8 +9,8 @@
 
 <style>
   body {
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: rgba(0, 0, 0, 0.123);
+    text-shadow: 1px 1px #000000;
+
     background-color: rgb(37, 36, 36);
   }
 
@@ -24,15 +24,17 @@
   }
 
   #nav {
+    text-align: left;
     padding: 30px;
   }
 
   #nav a {
+    font-size: 3vh;
     font-weight: bold;
     color: #ffffff;
   }
 
   #nav a.router-link-exact-active {
-    color: #914ae2;
+    text-decoration: underline;
   }
 </style>

@@ -62,7 +62,7 @@
               Description: {{bugComment.content}}
               <br>
               <button
-                @click="deleteNote(bugComment, bug)"
+                @click="deleteNote(bugComment, bug), disabled = true"
                 type="button"
                 class="btn btn-danger btn-sm"
               >Delete Note</button>
@@ -122,6 +122,9 @@ export default {
     },
     bugComments() {
       return this.$store.state.bugComments;
+    },
+    bugStatus() {
+      return this.$store.state.bug.closed;
     }
   },
   methods: {
@@ -134,6 +137,7 @@ export default {
       this.$store.dispatch("getComments", this.$route.params.id);
     },
     bugStatus(bug) {
+      debugger;
       this.$store.dispatch("bugCompleted", bug);
     }
   },

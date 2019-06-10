@@ -14,6 +14,7 @@ export default new Vuex.Store({
   state: {
     bug: [],
     bugs: [],
+    bugStatus: false,
     comments: [],
     bugComments: [],
   },
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     },
     setComments(state, payload = []) {
       state.bugComments = payload
+    },
+    setBugStatus(state, payload) {
+      state.bugStatus = payload
     }
   },
   actions: {
@@ -79,6 +83,7 @@ export default new Vuex.Store({
     },
     async bugCompleted({ commit, dispatch }, bug) {
       let res = await _api.delete(bug._id)
+      commit("setBugStatus", bug.closed)
       dispatch('getBugs')
     },
     async deleteCommentByID({ commit, dispatch }, bugComment, bug) {
