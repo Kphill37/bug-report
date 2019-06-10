@@ -1,7 +1,7 @@
 <template>
   <div class="bug-list">
     <div class="row">
-      <div class="col-4">
+      <div class="col-4 author">
         Author
       </div>
       <div class="col-4">
@@ -18,25 +18,27 @@
 
     <ul class="list-group">
       <li class="list-group-item list-group-flush" v-for="bug in bugs" :key="bug._id">
-        <router-link :to="{name: 'bugDetails', params: {id: bug._id}}">
-          <div class="row">
-            <div class="col-4">
-              {{bug.creator}}
-            </div>
-            <div class="col-4">
+
+        <div class="row">
+          <div class="col-4">
+            {{bug.creator}}
+          </div>
+          <div class="col-4">
+            <router-link :to="{name: 'bugDetails', params: {id: bug._id}}">
               {{bug.title}}
-            </div>
-            <!-- <div class="col-3">
+            </router-link>
+          </div>
+          <!-- <div class="col-3">
               {{bug.description}}
             </div> -->
-            <div class="col-4 bugClosed" v-if="bug.closed == true">
-              <i class="fas fa-circle">Bug Squashed</i>
-            </div>
-            <div class="col-4 bugOpen" v-else="bug.closed == false">
-              <i class="fas fa-circle">Pending Fix . . .</i>
-            </div>
+          <div class="col-4 bugClosed" v-if="bug.closed == true">
+            <i class="fas fa-circle">Bug Squashed</i>
           </div>
-        </router-link>
+          <div class="col-4 bugOpen" v-else="bug.closed == false">
+            <i class="fas fa-circle">Pending Fix . . .</i>
+          </div>
+        </div>
+
 
       </li>
     </ul>

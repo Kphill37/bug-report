@@ -5,7 +5,7 @@ import axios from 'axios'
 
 
 let _api = axios.create({
-  baseURL: 'https://bcw-sandbox.herokuapp.com/api/Kelly/bugs'
+  baseURL: 'https://bcw-sandbox.herokuapp.com/api/KellyP/bugs'
 })
 
 Vue.use(Vuex)

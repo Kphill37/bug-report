@@ -9,7 +9,9 @@
 
 <style>
   body {
-    background-color: rgb(68, 67, 67);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgba(0, 0, 0, 0.123);
+    background-color: rgb(37, 36, 36);
   }
 
   #app {
@@ -18,7 +20,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #ffffff;
-    background-color: rgb(68, 67, 67);
+    background-color: rgb(37, 36, 36);
   }
 
   #nav {

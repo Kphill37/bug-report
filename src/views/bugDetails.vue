@@ -12,8 +12,15 @@
         <div v-else class="bugFound">
           <div class="jumbotron">
             <div class="container">
-              <h1 class="display-4">Title: {{bug.title}}</h1>
-              <p class="lead">
+              <h1 style="color: purple;" class="display-4">
+                Title:
+                <span style="color: white;">{{bug.title}}</span>
+              </h1>
+              <h2 style="color: purple;">
+                Created By:
+                <span style="color: white;">{{bug.creator}}</span>
+              </h2>
+              <p style="color: lightblue;" class="lead">
                 Created on:
                 {{new Date(bug.createdAt).toLocaleDateString('en-US', {weekday:'long', year: 'numeric', day: 'numeric', month:'long'})}}
               </p>
@@ -27,9 +34,13 @@
         <div class="commentForm">
           <form @submit.prevent="submitComment(comment, bug)" class="submitComment">
             <h3>Submit New Comment</h3>User
-            <input type="text" name="name" v-model="comment.creator">
+            <span>
+              <input type="text" name="name" v-model="comment.creator">
+            </span>
             Comment
-            <input type="text" name="comment" v-model="comment.content">
+            <span>
+              <input type="text" name="comment" v-model="comment.content">
+            </span>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
         </div>
@@ -139,6 +150,7 @@ export default {
   margin-left: 2vw;
   background-color: rgba(0, 0, 0, 0.493);
   width: 45vw;
+  display: inline-block;
 }
 .commentSection {
   margin-top: 2vh;
@@ -166,5 +178,8 @@ export default {
 }
 hr {
   width: 45vw;
+}
+.h1 {
+  display: inline;
 }
 </style>
